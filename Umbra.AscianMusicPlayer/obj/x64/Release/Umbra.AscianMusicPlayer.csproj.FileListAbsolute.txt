@@ -1,0 +1,11 @@
+C:\Users\Shadow\source\repos\Umbra.SamplePlugin\out\Release\Umbra.AscianMusicPlayer.deps.json
+C:\Users\Shadow\source\repos\Umbra.SamplePlugin\out\Release\Umbra.AscianMusicPlayer.dll
+C:\Users\Shadow\source\repos\Umbra.SamplePlugin\out\Release\Umbra.AscianMusicPlayer.pdb
+C:\Users\Shadow\source\repos\Umbra.SamplePlugin\Umbra.AscianMusicPlayer\obj\x64\Release\Umbra.AscianMusicPlayer.csproj.AssemblyReference.cache
+C:\Users\Shadow\source\repos\Umbra.SamplePlugin\Umbra.AscianMusicPlayer\obj\x64\Release\Umbra.AscianMusicPlayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Shadow\source\repos\Umbra.SamplePlugin\Umbra.AscianMusicPlayer\obj\x64\Release\Umbra.AscianMusicPlayer.AssemblyInfoInputs.cache
+C:\Users\Shadow\source\repos\Umbra.SamplePlugin\Umbra.AscianMusicPlayer\obj\x64\Release\Umbra.AscianMusicPlayer.AssemblyInfo.cs
+C:\Users\Shadow\source\repos\Umbra.SamplePlugin\Umbra.AscianMusicPlayer\obj\x64\Release\Umbra.AscianMusicPlayer.csproj.CoreCompileInputs.cache
+C:\Users\Shadow\source\repos\Umbra.SamplePlugin\Umbra.AscianMusicPlayer\obj\x64\Release\Umbra.AscianMusicPlayer.sourcelink.json
+C:\Users\Shadow\source\repos\Umbra.SamplePlugin\Umbra.AscianMusicPlayer\obj\x64\Release\Umbra.AscianMusicPlayer.dll
+C:\Users\Shadow\source\repos\Umbra.SamplePlugin\Umbra.AscianMusicPlayer\obj\x64\Release\Umbra.AscianMusicPlayer.pdb
