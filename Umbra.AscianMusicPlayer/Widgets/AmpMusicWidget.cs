@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using Dalamud.Interface;
 using Umbra.Common;
+using Umbra.Game;
 using Umbra.Widgets;
+using Una.Drawing;
 
 namespace Umbra.AscianMusicPlayer.Widgets;
 
@@ -31,6 +33,8 @@ public class AmpMusicWidget(
     {
         _popup = new AmpMusicWidgetPopup(_ipc);
         SetFontAwesomeIcon(FontAwesomeIcon.Music);
+
+        Node.OnRightClick += OnRightClicked;
     }
 
     protected override void OnDraw()
@@ -55,6 +59,7 @@ public class AmpMusicWidget(
 
     protected override void OnUnload()
     {
+        Node.OnRightClick -= OnRightClicked;
         _ipc.Dispose();
     }
 
@@ -62,6 +67,32 @@ public class AmpMusicWidget(
     {
         return [
             ..base.GetConfigVariables(),
+            new SelectWidgetConfigVariable(
+                "RightClickBehavior",
+                "Right-click behavior",
+                "What happens when you right-click the widget.",
+                "OpenAmpWindow",
+                new() {
+                    { "OpenAmpWindow", "Open AMP Window" },
+                    { "PlayPause",     "Play / Pause" },
+                }
+            ),
         ];
+    }
+
+    private void OnRightClicked(Node _)
+    {
+        switch (GetConfigValue<string>("RightClickBehavior")) {
+            case "PlayPause":
+                if (_ipc.GetPlaybackState() == 1) {
+                    _ipc.Pause();
+                } else {
+                    _ipc.Play();
+                }
+                break;
+            default:
+                Framework.Service<IChatSender>().Send("/amp");
+                break;
+        }
     }
 }

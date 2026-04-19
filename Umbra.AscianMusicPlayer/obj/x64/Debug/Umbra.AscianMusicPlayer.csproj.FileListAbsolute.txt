@@ -1,0 +1,11 @@
+C:\Users\Shadow\source\repos\Umbra.AscianMusicPlayer\Umbra.AscianMusicPlayer\obj\x64\Debug\Umbra.AscianMusicPlayer.csproj.AssemblyReference.cache
+C:\Users\Shadow\source\repos\Umbra.AscianMusicPlayer\Umbra.AscianMusicPlayer\obj\x64\Debug\Umbra.AscianMusicPlayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Shadow\source\repos\Umbra.AscianMusicPlayer\Umbra.AscianMusicPlayer\obj\x64\Debug\Umbra.AscianMusicPlayer.AssemblyInfoInputs.cache
+C:\Users\Shadow\source\repos\Umbra.AscianMusicPlayer\Umbra.AscianMusicPlayer\obj\x64\Debug\Umbra.AscianMusicPlayer.AssemblyInfo.cs
+C:\Users\Shadow\source\repos\Umbra.AscianMusicPlayer\Umbra.AscianMusicPlayer\obj\x64\Debug\Umbra.AscianMusicPlayer.csproj.CoreCompileInputs.cache
+C:\Users\Shadow\source\repos\Umbra.AscianMusicPlayer\Umbra.AscianMusicPlayer\obj\x64\Debug\Umbra.AscianMusicPlayer.sourcelink.json
+C:\Users\Shadow\source\repos\Umbra.AscianMusicPlayer\out\Debug\Umbra.AscianMusicPlayer.deps.json
+C:\Users\Shadow\source\repos\Umbra.AscianMusicPlayer\out\Debug\Umbra.AscianMusicPlayer.dll
+C:\Users\Shadow\source\repos\Umbra.AscianMusicPlayer\out\Debug\Umbra.AscianMusicPlayer.pdb
+C:\Users\Shadow\source\repos\Umbra.AscianMusicPlayer\Umbra.AscianMusicPlayer\obj\x64\Debug\Umbra.AscianMusicPlayer.dll
+C:\Users\Shadow\source\repos\Umbra.AscianMusicPlayer\Umbra.AscianMusicPlayer\obj\x64\Debug\Umbra.AscianMusicPlayer.pdb
