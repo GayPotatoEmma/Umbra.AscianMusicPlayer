@@ -24,8 +24,7 @@
         <AssemblyName>Umbra.AscianMusicPlayer</AssemblyName>
         <RootNamespace>Umbra.AscianMusicPlayer</RootNamespace>
         <ProductName>Ascian Music Player</ProductName>
-        <Authors>Shadow</Authors>
-        <Company>Shadow</Company>
+        <Authors>Emma</Authors>
         <Version>1.0.0.0</Version>
         <Description>Displays the currently playing track from Ascian Music Player and provides playback controls.</Description>
         <Copyright>(C)2025</Copyright>
