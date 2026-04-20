@@ -48,9 +48,17 @@ public class AmpMusicWidget(
         string title  = _ipc.GetTitle();
         string artist = _ipc.GetArtist();
 
+        bool hideWhenPaused = GetConfigValue<bool>("HideTextWhenPaused")
+            && GetConfigValue<string>("DisplayMode") == "TextAndIcon";
+
         if (state is 1 or 2 && !string.IsNullOrEmpty(title)) {
-            SetText(title);
-            SetSubText(string.IsNullOrEmpty(artist) ? null : artist);
+            if (state == 2 && hideWhenPaused) {
+                SetText(null);
+                SetSubText(null);
+            } else {
+                SetText(title);
+                SetSubText(string.IsNullOrEmpty(artist) ? null : artist);
+            }
         } else {
             SetText("Not playing");
             SetSubText(null);
@@ -67,6 +75,12 @@ public class AmpMusicWidget(
     {
         return [
             ..base.GetConfigVariables(),
+            new BooleanWidgetConfigVariable(
+                "HideTextWhenPaused",
+                "Hide text when paused",
+                "Hides the track title and artist text when playback is paused.",
+                false
+            ) { DisplayIf = () => GetConfigValue<string>("DisplayMode") == "TextAndIcon" },
             new SelectWidgetConfigVariable(
                 "RightClickBehavior",
                 "Right-click behavior",
