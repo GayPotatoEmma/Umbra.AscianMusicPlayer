@@ -28,4 +28,4 @@ A custom plugin for Umbra that allows you to add a Widget to be used with [Ascia
   - Confirm and Restart Umbra
 
 ## Screenshots
-<img width="309" height="186" alt="image" src="https://github.com/user-attachments/assets/60bf7517-5df8-417a-a54b-729122153abc" />
+<img width="330" height="195" alt="image" src="https://github.com/user-attachments/assets/4e883f2b-ce08-4a20-adaf-48bb9b0823ec" />
