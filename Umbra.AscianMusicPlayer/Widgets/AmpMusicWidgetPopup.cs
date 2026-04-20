@@ -9,30 +9,28 @@ namespace Umbra.AscianMusicPlayer.Widgets;
 
 internal sealed class AmpMusicWidgetPopup : WidgetPopup
 {
-    // FontAwesome font ID registered in Umbra (FontId.FontAwesome = 2)
     private const uint FontAwesomeFont = 2u;
 
     private const int PopupWidth = 280;
 
     private readonly AmpIpcClient _ipc;
 
-    // Track info nodes
     private readonly Node _artNode;
     private readonly Node _titleNode;
     private readonly Node _artistNode;
     private readonly Node _albumNode;
 
     private const int ArtSize  = 64;
-    private const int TextWidth = PopupWidth - ArtSize - 8; // 8px gap
+    private const int TextWidth = PopupWidth - ArtSize - 8;
 
     private string _currentArtKey = string.Empty;
 
-    // Control button nodes
+    private readonly Node _shuffleButton;
     private readonly Node _prevButton;
     private readonly Node _playPauseButton;
     private readonly Node _nextButton;
+    private readonly Node _repeatButton;
 
-    // Progress nodes
     private readonly Node _progressTrack;
     private readonly Node _progressFill;
     private readonly Node _timeNode;
@@ -96,13 +94,17 @@ internal sealed class AmpMusicWidgetPopup : WidgetPopup
             },
         };
 
-        _prevButton = CreateControlButton("PrevButton", FontAwesomeIcon.StepBackward);
-        _playPauseButton = CreateControlButton("PlayPauseButton", FontAwesomeIcon.Play);
-        _nextButton = CreateControlButton("NextButton", FontAwesomeIcon.StepForward);
+        _shuffleButton    = CreateControlButton("ShuffleButton", FontAwesomeIcon.Random);
+        _prevButton       = CreateControlButton("PrevButton", FontAwesomeIcon.StepBackward);
+        _playPauseButton  = CreateControlButton("PlayPauseButton", FontAwesomeIcon.Play);
+        _nextButton       = CreateControlButton("NextButton", FontAwesomeIcon.StepForward);
+        _repeatButton     = CreateControlButton("RepeatButton", FontAwesomeIcon.Retweet);
 
+        _shuffleButton.OnClick   += _ => _ipc.ToggleShuffle();
         _prevButton.OnClick      += _ => _ipc.Previous();
         _playPauseButton.OnClick += _ => OnPlayPauseClicked();
         _nextButton.OnClick      += _ => _ipc.Next();
+        _repeatButton.OnClick    += _ => _ipc.ToggleRepeat();
 
         _progressFill = new() {
             Id    = "ProgressFill",
@@ -136,6 +138,9 @@ internal sealed class AmpMusicWidgetPopup : WidgetPopup
             },
         };
 
+        Node spacerLeft  = new() { Id = "SpacerLeft",  Style = new() { Size = new(52, 32) } };
+        Node spacerRight = new() { Id = "SpacerRight", Style = new() { Size = new(52, 32) } };
+
         Node controlRow = new() {
             Id         = "ControlRow",
             Style      = new() {
@@ -143,7 +148,7 @@ internal sealed class AmpMusicWidgetPopup : WidgetPopup
                 Size = new(PopupWidth, 0),
                 Gap  = 8,
             },
-            ChildNodes = [_prevButton, _playPauseButton, _nextButton],
+            ChildNodes = [_shuffleButton, spacerLeft, _prevButton, _playPauseButton, _nextButton, spacerRight, _repeatButton],
         };
 
         Node separator1 = CreateSeparator();
@@ -220,9 +225,6 @@ internal sealed class AmpMusicWidgetPopup : WidgetPopup
         if (artKey != _currentArtKey) {
             _currentArtKey            = artKey;
             _artNode.Style.ImageBytes = null;
-            // Flip ImageRounding to force a snapshot change so the renderer
-            // clears the old art immediately (PaintStyleSnapshot tracks ImageRounding
-            // but not ImageBytes, so without this the stale image persists).
             _artNode.Style.ImageRounding = 4f;
         }
 
@@ -231,7 +233,7 @@ internal sealed class AmpMusicWidgetPopup : WidgetPopup
             byte[]? artBytes = AmpAlbumArtFetcher.GetCached(artKey);
             if (artBytes != null) {
                 _artNode.Style.ImageBytes    = artBytes;
-                _artNode.Style.ImageRounding = 4.001f; // force snapshot change to trigger render
+                _artNode.Style.ImageRounding = 4.001f;
             }
         }
 
@@ -240,12 +242,23 @@ internal sealed class AmpMusicWidgetPopup : WidgetPopup
             ? FontAwesomeIcon.Pause.ToIconString()
             : FontAwesomeIcon.Play.ToIconString();
 
-        // Progress bar fill
+        bool shuffleOn = available && _ipc.GetShuffle();
+        _shuffleButton.Style.Color = shuffleOn
+            ? new("Window.AccentColor")
+            : new("Widget.PopupMenuText");
+
+        int repeatMode = available ? _ipc.GetRepeatMode() : 0;
+        _repeatButton.NodeValue = repeatMode == 2
+            ? FontAwesomeIcon.Redo.ToIconString()
+            : FontAwesomeIcon.Retweet.ToIconString();
+        _repeatButton.Style.Color = repeatMode > 0
+            ? new("Window.AccentColor")
+            : new("Widget.PopupMenuText");
+
         float progress = dur > 0f ? Math.Clamp(pos / dur, 0f, 1f) : 0f;
         int   fillWidth = (int)(progress * PopupWidth);
         _progressFill.Style.Size = new(fillWidth, 4);
 
-        // Time display
         _timeNode.NodeValue = $"{FormatTime(pos)} / {FormatTime(dur)}";
     }
 

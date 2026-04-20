@@ -17,7 +17,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Displays the currently playing track from Ascian Music Player and provides playba" +
     "ck controls.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0.0+3583b61cab1793babadff99f7fd4e22026867a7f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0.0+2addc4a54fa81aac99e26380b28192faf40a56cb")]
 [assembly: System.Reflection.AssemblyProductAttribute("Umbra.AscianMusicPlayer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Umbra.AscianMusicPlayer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

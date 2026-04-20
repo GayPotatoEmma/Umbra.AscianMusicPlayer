@@ -11,7 +11,6 @@ internal static class AmpAlbumArtFetcher
 {
     private static readonly HttpClient Http = new();
 
-    // null value means "fetched but no result found"
     private static readonly ConcurrentDictionary<string, byte[]?> Cache  = new();
     private static readonly ConcurrentDictionary<string, bool>    InFlight = new();
 
