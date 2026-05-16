@@ -1,13 +1,16 @@
-# Ascian Music Player - Umbra Plugin
+# Music Player - Umbra Plugin
 
-A custom plugin for Umbra that allows you to add a Widget to be used with [Ascian Music Player](https://github.com/GayPotatoEmma/Ascian-Music-Player) (available on Dalamud Main Repo)
-> [!IMPORTANT]
-> **Requires Ascian Music Player v1.2.1.2 or later!**
+A custom plugin for Umbra that allows you to add a Widget to be used with [Ascian Music Player](https://github.com/GayPotatoEmma/Ascian-Music-Player) and/or [FantasyPlayer](https://github.com/Critical-Impact/FantasyPlayer/) (both available on Dalamud Main Repo)
+
 
 ## Features
 - Media Controls
 - Interactive seekbar
 - Album art support
+- Supports both Ascian Music Player and Fantasy Player
+> [!WARNING]
+> Ascian Music Player: minimum v1.2.1.2 required!
+> FantasyPlayer: minimum v6.0.1 required!
 
 ## How to install
 - **Automatic (Recommended)**
