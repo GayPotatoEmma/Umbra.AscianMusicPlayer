@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
 using Una.Drawing;
@@ -24,6 +25,13 @@ internal sealed class AmpMusicWidgetPopup : WidgetPopup
     private const int TextWidth = PopupWidth - ArtSize - 8;
 
     private string _currentArtKey = string.Empty;
+
+    // Position interpolation
+    private float     _lastKnownPos   = 0f;
+    private float     _lastKnownDur   = 0f;
+    private int       _lastState      = 0;
+    private string    _lastTrackKey   = string.Empty;
+    private readonly Stopwatch _positionTimer = new();
 
     private readonly Node _shuffleButton;
     private readonly Node _prevButton;
@@ -210,8 +218,30 @@ internal sealed class AmpMusicWidgetPopup : WidgetPopup
         string artist = available ? _ipc.GetArtist() : string.Empty;
         string album  = available ? _ipc.GetAlbum()  : string.Empty;
         float  dur    = available ? _ipc.GetDuration()  : 0f;
-        float  pos    = available ? _ipc.GetPosition()  : 0f;
+        float  ipcPos = available ? _ipc.GetPosition()  : 0f;
         int    state  = available ? _ipc.GetPlaybackState() : 0;
+
+        // Interpolate position locally when playing, to work around providers
+        // (e.g. FantasyPlayer) that only push position updates on state changes.
+        string trackKey = $"{title}|{artist}|{album}";
+        bool trackChanged = trackKey != _lastTrackKey;
+        bool stateChanged = state != _lastState;
+        bool posJumped    = MathF.Abs(ipcPos - _lastKnownPos) > 1.5f;
+
+        if (trackChanged || stateChanged || posJumped) {
+            _lastKnownPos  = ipcPos;
+            _lastKnownDur  = dur;
+            _lastTrackKey  = trackKey;
+            _lastState     = state;
+            _positionTimer.Restart();
+        }
+
+        float pos;
+        if (state == 1 && dur > 0f) {
+            pos = Math.Clamp(_lastKnownPos + (float)_positionTimer.Elapsed.TotalSeconds, 0f, dur);
+        } else {
+            pos = ipcPos;
+        }
 
         _titleNode.NodeValue  = string.IsNullOrEmpty(title)  ? "No track loaded" : title;
         _artistNode.NodeValue = string.IsNullOrEmpty(artist) ? string.Empty      : artist;

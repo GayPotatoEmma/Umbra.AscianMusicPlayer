@@ -9,8 +9,8 @@ namespace Umbra.AscianMusicPlayer.Widgets;
 
 [ToolbarWidget(
     "AmpMusicWidget",
-    "Ascian Music Player",
-    "Displays the currently playing track from Ascian Music Player and provides playback controls."
+    "Music Player",
+    "Displays the currently playing track from a music player plugin and provides playback controls."
 )]
 public class AmpMusicWidget(
     WidgetInfo                  info,
@@ -23,9 +23,11 @@ public class AmpMusicWidget(
         StandardWidgetFeatures.SubText |
         StandardWidgetFeatures.Icon;
 
-    private readonly AmpIpcClient _ipc = new();
+    private AmpIpcClient _ipc = new();
 
     private AmpMusicWidgetPopup? _popup;
+
+    private string _currentProvider = "AscianMusicPlayer";
 
     public override WidgetPopup? Popup => _popup;
 
@@ -39,8 +41,17 @@ public class AmpMusicWidget(
 
     protected override void OnDraw()
     {
+        string provider = GetConfigValue<string>("MusicProvider");
+
+        if (provider != _currentProvider) {
+            _currentProvider = provider;
+            _ipc.Dispose();
+            _ipc    = new AmpIpcClient(provider);
+            _popup  = new AmpMusicWidgetPopup(_ipc);
+        }
+
         if (!_ipc.IsAvailable) {
-            SetText("AMP");
+            SetText("Music");
             return;
         }
 
@@ -51,14 +62,12 @@ public class AmpMusicWidget(
         bool hideWhenPaused = GetConfigValue<bool>("HideTextWhenPaused")
             && GetConfigValue<string>("DisplayMode") == "TextAndIcon";
 
-        if (state is 1 or 2 && !string.IsNullOrEmpty(title)) {
-            if (state == 2 && hideWhenPaused) {
-                SetText(null);
-                SetSubText(null);
-            } else {
-                SetText(title);
-                SetSubText(string.IsNullOrEmpty(artist) ? null : artist);
-            }
+        if (state != 1 && hideWhenPaused) {
+            SetText(null);
+            SetSubText(null);
+        } else if (state is 1 or 2 && !string.IsNullOrEmpty(title)) {
+            SetText(title);
+            SetSubText(string.IsNullOrEmpty(artist) ? null : artist);
         } else {
             SetText("Not playing");
             SetSubText(null);
@@ -75,6 +84,16 @@ public class AmpMusicWidget(
     {
         return [
             ..base.GetConfigVariables(),
+            new SelectWidgetConfigVariable(
+                "MusicProvider",
+                "Music provider",
+                "The music player plugin to use as the data source.",
+                "AscianMusicPlayer",
+                new() {
+                    { "AscianMusicPlayer", ProviderLabel("AscianMusicPlayer", "Ascian Music Player") },
+                    { "FantasyPlayer",     ProviderLabel("FantasyPlayer",     "FantasyPlayer") },
+                }
+            ),
             new BooleanWidgetConfigVariable(
                 "HideTextWhenPaused",
                 "Hide text when paused",
@@ -87,11 +106,17 @@ public class AmpMusicWidget(
                 "What happens when you right-click the widget.",
                 "OpenAmpWindow",
                 new() {
-                    { "OpenAmpWindow", "Open AMP Window" },
+                    { "OpenAmpWindow", "Open music player window" },
                     { "PlayPause",     "Play / Pause" },
                 }
             ),
         ];
+    }
+
+    private static string ProviderLabel(string pluginName, string displayName)
+    {
+        using var probe = new AmpIpcClient(pluginName);
+        return probe.IsAvailable ? displayName : $"{displayName} (Not installed)";
     }
 
     private void OnRightClicked(Node _)
@@ -105,7 +130,10 @@ public class AmpMusicWidget(
                 }
                 break;
             default:
-                Framework.Service<IChatSender>().Send("/amp");
+                string command = GetConfigValue<string>("MusicProvider") == "FantasyPlayer"
+                    ? "/pfp settings"
+                    : "/amp";
+                Framework.Service<IChatSender>().Send(command);
                 break;
         }
     }

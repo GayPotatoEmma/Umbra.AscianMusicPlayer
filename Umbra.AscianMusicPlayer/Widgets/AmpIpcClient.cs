@@ -27,27 +27,27 @@ internal sealed class AmpIpcClient : IDisposable
     private readonly ICallGateSubscriber<float, object> _setVolume;
     private readonly ICallGateSubscriber<float, object> _setPosition;
 
-    public AmpIpcClient()
+    public AmpIpcClient(string pluginName = "AscianMusicPlayer")
     {
         var pi = Framework.DalamudPlugin;
 
-        _getTitle         = pi.GetIpcSubscriber<string>("AscianMusicPlayer.GetTitle");
-        _getArtist        = pi.GetIpcSubscriber<string>("AscianMusicPlayer.GetArtist");
-        _getAlbum         = pi.GetIpcSubscriber<string>("AscianMusicPlayer.GetAlbum");
-        _getDuration      = pi.GetIpcSubscriber<float>("AscianMusicPlayer.GetDuration");
-        _getPosition      = pi.GetIpcSubscriber<float>("AscianMusicPlayer.GetPosition");
-        _getPlaybackState = pi.GetIpcSubscriber<int>("AscianMusicPlayer.GetPlaybackState");
-        _getVolume        = pi.GetIpcSubscriber<float>("AscianMusicPlayer.GetVolume");
-        _getShuffle       = pi.GetIpcSubscriber<bool>("AscianMusicPlayer.GetShuffle");
-        _getRepeatMode    = pi.GetIpcSubscriber<int>("AscianMusicPlayer.GetRepeatMode");
-        _play             = pi.GetIpcSubscriber<object>("AscianMusicPlayer.Play");
-        _pause            = pi.GetIpcSubscriber<object>("AscianMusicPlayer.Pause");
-        _next             = pi.GetIpcSubscriber<object>("AscianMusicPlayer.Next");
-        _previous         = pi.GetIpcSubscriber<object>("AscianMusicPlayer.Previous");
-        _toggleShuffle    = pi.GetIpcSubscriber<object>("AscianMusicPlayer.ToggleShuffle");
-        _toggleRepeat     = pi.GetIpcSubscriber<object>("AscianMusicPlayer.ToggleRepeat");
-        _setVolume        = pi.GetIpcSubscriber<float, object>("AscianMusicPlayer.SetVolume");
-        _setPosition      = pi.GetIpcSubscriber<float, object>("AscianMusicPlayer.SetPosition");
+        _getTitle         = pi.GetIpcSubscriber<string>($"{pluginName}.GetTitle");
+        _getArtist        = pi.GetIpcSubscriber<string>($"{pluginName}.GetArtist");
+        _getAlbum         = pi.GetIpcSubscriber<string>($"{pluginName}.GetAlbum");
+        _getDuration      = pi.GetIpcSubscriber<float>($"{pluginName}.GetDuration");
+        _getPosition      = pi.GetIpcSubscriber<float>($"{pluginName}.GetPosition");
+        _getPlaybackState = pi.GetIpcSubscriber<int>($"{pluginName}.GetPlaybackState");
+        _getVolume        = pi.GetIpcSubscriber<float>($"{pluginName}.GetVolume");
+        _getShuffle       = pi.GetIpcSubscriber<bool>($"{pluginName}.GetShuffle");
+        _getRepeatMode    = pi.GetIpcSubscriber<int>($"{pluginName}.GetRepeatMode");
+        _play             = pi.GetIpcSubscriber<object>($"{pluginName}.Play");
+        _pause            = pi.GetIpcSubscriber<object>($"{pluginName}.Pause");
+        _next             = pi.GetIpcSubscriber<object>($"{pluginName}.Next");
+        _previous         = pi.GetIpcSubscriber<object>($"{pluginName}.Previous");
+        _toggleShuffle    = pi.GetIpcSubscriber<object>($"{pluginName}.ToggleShuffle");
+        _toggleRepeat     = pi.GetIpcSubscriber<object>($"{pluginName}.ToggleRepeat");
+        _setVolume        = pi.GetIpcSubscriber<float, object>($"{pluginName}.SetVolume");
+        _setPosition      = pi.GetIpcSubscriber<float, object>($"{pluginName}.SetPosition");
     }
 
     /// <summary>
