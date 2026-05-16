@@ -8,9 +8,9 @@ A custom plugin for Umbra that allows you to add a Widget to be used with [Ascia
 - Interactive seekbar
 - Album art support
 - Supports both Ascian Music Player and Fantasy Player
-> [!WARNING]
-> Ascian Music Player: minimum v1.2.1.2 required!
-> FantasyPlayer: minimum v6.0.1 required!
+  - Minimum Required Versions:
+    - AMP: 1.2.1.2
+    - FP: 6.0.1
 
 ## How to install
 - **Automatic (Recommended)**
